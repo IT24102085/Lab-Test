@@ -23,11 +23,12 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
   })
   .catch((error) => {
     console.error("Database connection error:", error.message);
-    process.exit(1);
+    console.log("Server starting without database connection...");
   });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

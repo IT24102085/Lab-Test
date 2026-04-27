@@ -27,6 +27,9 @@ const itemSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    expiryDate: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

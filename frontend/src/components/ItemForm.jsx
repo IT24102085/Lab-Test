@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ItemForm({ initialValues, onSubmit, submitText }) {
+  const formatDateForInput = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+  };
+
   const [formData, setFormData] = useState(
     initialValues || {
       name: "",
@@ -8,8 +14,18 @@ function ItemForm({ initialValues, onSubmit, submitText }) {
       price: "",
       description: "",
       imageUrl: "",
+      expiryDate: "",
     }
   );
+
+  useEffect(() => {
+    if (initialValues) {
+      setFormData({
+        ...initialValues,
+        expiryDate: formatDateForInput(initialValues.expiryDate),
+      });
+    }
+  }, [initialValues]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,6 +70,14 @@ function ItemForm({ initialValues, onSubmit, submitText }) {
 
       <label>Image URL</label>
       <input name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
+
+      <label>Expiry Date</label>
+      <input
+        type="date"
+        name="expiryDate"
+        value={formData.expiryDate}
+        onChange={handleChange}
+      />
 
       <button className="btn primary" type="submit">{submitText}</button>
     </form>
